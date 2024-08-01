@@ -1,5 +1,6 @@
 .venv/
 venv/
+myenv/
 myvenv/
 path/
 __pycache__/
@@ -10,3 +11,9 @@ __pycache__/
 imagenet_val_25.npz
 cifar-10-batches-py/
 get-pip.py
+coco-captioning.zip
+coco-captioning/
+Transformer_Captioning.pdf
+aa.log
+aa.tex
+transformer_layers.pdf
