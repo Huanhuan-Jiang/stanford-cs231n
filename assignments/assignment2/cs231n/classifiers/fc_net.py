@@ -84,9 +84,9 @@ class FullyConnectedNet(object):
                                                       size=(layer_size[i], layer_size[i+1]))
             self.params[f'b{i+1}'] = np.zeros(layer_size[i+1])
             
-            if normalization=='batchnorm':
-                self.params[f'gamma{i+1}'] = np.ones(layer_size)
-                self.params[f'beta{i+1}'] = np.zeros(layer_size)
+            if normalization=='batchnorm' and i < self.num_layers - 1:
+                self.params[f'gamma{i+1}'] = np.ones(layer_size[i+1])
+                self.params[f'beta{i+1}'] = np.zeros(layer_size[i+1])
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
