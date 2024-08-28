@@ -38,7 +38,11 @@ class PositionalEncoding(nn.Module):
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        for pos in range(max_len):
+            for i in range(embed_dim // 2):
+                angle = pos / (10000 ** (2 * i / embed_dim))
+                pe[0, pos, 2*i] = math.sin(angle)
+                pe[0, pos, 2*i + 1] = math.cos(angle)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -69,8 +73,9 @@ class PositionalEncoding(nn.Module):
         # afterward. This should only take a few lines of code.                    #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
+        
+        output = self.pe[:, :S, :] + x
+        output = self.dropout(output)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -165,8 +170,23 @@ class MultiHeadAttention(nn.Module):
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        H = self.n_head
+        head_dim = self.head_dim
+        
+        q = self.query(query).view(N, S, H, head_dim).permute(0, 2, 1, 3)
+        k = self.key(key).view(N, T, H, head_dim).permute(0, 2, 1, 3)
+        v = self.value(value).view(N, T, H, head_dim).permute(0, 2, 1, 3)
+        
+        similarities = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(head_dim)
 
+        if attn_mask is not None:
+            similarities = similarities.masked_fill(attn_mask == 0, -float('inf'))
+        attention = F.softmax(similarities, dim=-1)
+        attention = self.attn_drop(attention)
+        Y = torch.matmul(attention, v)
+        output = Y.permute(0, 2, 1, 3).reshape(N, S, E)
+        output = self.proj(output)
+        
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
