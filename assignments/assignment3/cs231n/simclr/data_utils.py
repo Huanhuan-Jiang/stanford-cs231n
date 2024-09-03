@@ -1,5 +1,6 @@
 from PIL import Image
 from torchvision import transforms
+from torchvision.transforms import v2
 from torchvision.datasets import CIFAR10
 import random
 import torch
@@ -25,13 +26,17 @@ def compute_train_transform(seed=123456):
         # Step 1: Randomly resize and crop to 32x32.
         transforms.RandomResizedCrop(32),
         # Step 2: Horizontally flip the image with probability 0.5
+        transforms.RandomHorizontalFlip(p=0.5),
         # Step 3: With a probability of 0.8, apply color jitter (you can use "color_jitter" defined above.
+        transforms.RandomApply([color_jitter], p=0.8),
         # Step 4: With a probability of 0.2, convert the image to grayscale
+        transforms.RandomGrayscale(p=0.2),
         ##############################################################################
         #                               END OF YOUR CODE                             #
         ##############################################################################
         transforms.ToTensor(),
         transforms.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010])])
+    
     return train_transform
     
 def compute_test_transform():
@@ -57,6 +62,10 @@ class CIFAR10Pair(CIFAR10):
             #                                                                            #
             # Apply self.transform to the image to produce x_i and x_j in the paper #
             ##############################################################################
+
+            x_i = self.transform(img)
+            x_j = self.transform(img)
+
             ##############################################################################
             #                               END OF YOUR CODE                             #
             ##############################################################################
