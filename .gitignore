@@ -10,14 +10,7 @@ __pycache__/
 .DS_Store
 imagenet_val_25.npz
 cifar-10-batches-py/
-<<<<<<< HEAD
 get-pip.py
 coco-captioning.zip
 coco-captioning/
-Transformer_Captioning.pdf
-aa.log
-aa.tex
-transformer_layers.pdf
-=======
-get-pip.py
->>>>>>> be31d0e (Finish assignment 2)
+
