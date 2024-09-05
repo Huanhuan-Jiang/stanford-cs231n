@@ -32,9 +32,6 @@ This repository contains my solutions to all assignments in the CS231n course. E
 
 I have prepared a few PDF notes summarizing key concepts and techniques covered in the course. These notes are intended for personal reference and may be useful for anyone looking to reinforce their understanding of the material.
 
-- [Notes on softmax_cross_entropy]
-- [Notes on svm_loss_gradient]
-
 ## Technologies Used
 
 - Python
