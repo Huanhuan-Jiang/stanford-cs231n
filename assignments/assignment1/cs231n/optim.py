@@ -1,5 +1,3 @@
-import numpy as np
-
 """
 This file implements various first-order update rules that are commonly used
 for training neural networks. Each update rule accepts current weights and the
@@ -28,6 +26,8 @@ work well for a variety of different problems.
 For efficiency, update rules may perform in-place updates, mutating w and
 setting next_w equal to w.
 """
+
+import numpy as np
 
 
 def sgd(w, dw, config=None):
@@ -64,6 +64,7 @@ def sgd_momentum(w, dw, config=None):
     v = config.get("velocity", np.zeros_like(w))
                      
     next_w = None
+<<<<<<<< HEAD:assignments/assignment1/cs231n/optim.py
     ###########################################################################
     # TODO: Implement the momentum update formula. Store the updated value in #
     # the next_w variable. You should also use and update the velocity v.     #
@@ -80,6 +81,12 @@ def sgd_momentum(w, dw, config=None):
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
+========
+    v *= config["momentum"]
+    v -= config["learning_rate"] * dw
+    w += v
+    next_w = w
+>>>>>>>> 4de887f (a3lstm):assignments/assignment3/cs231n/optim.py
     config["velocity"] = v
 
     return next_w, config
@@ -105,6 +112,7 @@ def rmsprop(w, dw, config=None):
     config.setdefault("cache", np.zeros_like(w))
 
     next_w = None
+<<<<<<<< HEAD:assignments/assignment1/cs231n/optim.py
     ###########################################################################
     # TODO: Implement the RMSprop update formula, storing the next value of w #
     # in the next_w variable. Don't forget to update cache value stored in    #
@@ -125,6 +133,16 @@ def rmsprop(w, dw, config=None):
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
+========
+    rho = config["decay_rate"]
+    lr = config["learning_rate"]
+    eps = config["epsilon"]
+    config["cache"] *= rho
+    config["cache"] += (1.0 - rho) * dw ** 2
+    step = -(lr * dw) / (np.sqrt(config["cache"]) + eps)
+    w += step
+    next_w = w
+>>>>>>>> 4de887f (a3lstm):assignments/assignment3/cs231n/optim.py
 
     return next_w, config
 
@@ -154,6 +172,7 @@ def adam(w, dw, config=None):
     config.setdefault("t", 0)
 
     next_w = None
+<<<<<<<< HEAD:assignments/assignment1/cs231n/optim.py
     ###########################################################################
     # TODO: Implement the Adam update formula, storing the next value of w in #
     # the next_w variable. Don't forget to update the m, v, and t variables   #
@@ -185,5 +204,18 @@ def adam(w, dw, config=None):
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
+========
+    beta1, beta2, eps = config["beta1"], config["beta2"], config["epsilon"]
+    t, m, v = config["t"], config["m"], config["v"]
+    m = beta1 * m + (1 - beta1) * dw
+    v = beta2 * v + (1 - beta2) * (dw * dw)
+    t += 1
+    alpha = config["learning_rate"] * np.sqrt(1 - beta2 ** t) / (1 - beta1 ** t)
+    w -= alpha * (m / (np.sqrt(v) + eps))
+    config["t"] = t
+    config["m"] = m
+    config["v"] = v
+    next_w = w
+>>>>>>>> 4de887f (a3lstm):assignments/assignment3/cs231n/optim.py
 
     return next_w, config

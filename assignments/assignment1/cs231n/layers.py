@@ -118,8 +118,11 @@ def relu_backward(dout, cache):
     sign = (x > 0).astype(float)
     dx *= sign
 <<<<<<<< HEAD:assignments/assignment1/cs231n/layers.py
+<<<<<<<< HEAD:assignments/assignment1/cs231n/layers.py
     
 ========
+========
+>>>>>>>> 4de887f (a3lstm):assignments/assignment3/cs231n/layers.py
 
 >>>>>>>> be31d0e (Finish assignment 2):assignments/assignment2/cs231n/layers.py
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -947,6 +950,7 @@ def spatial_groupnorm_backward(dout, cache):
     ###########################################################################
     return dx, dgamma, dbeta
 <<<<<<<< HEAD:assignments/assignment1/cs231n/layers.py
+<<<<<<<< HEAD:assignments/assignment1/cs231n/layers.py
 
 
 def svm_loss(x, y):
@@ -1026,3 +1030,5 @@ def softmax_loss(x, y):
     return loss, dx
 ========
 >>>>>>>> be31d0e (Finish assignment 2):assignments/assignment2/cs231n/layers.py
+========
+>>>>>>>> 4de887f (a3lstm):assignments/assignment3/cs231n/layers.py
